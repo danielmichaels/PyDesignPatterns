@@ -2,7 +2,7 @@
 
 This section will cover what Singleton is, some real-world applications of the pattern and how it can be implemented in Python. Alex Martelli's Monostate or Borg pattern will also be discussed and showcased, and why it would be used over the Singleton.
 
-## What is the Singleton?
+## What is the Singleton Pattern
 
 Singleton provides one and only one object of a given type, and provides a global point of access to that type. The Singleton is often used in classes such as logging or database operators where having only one instance prevents locking issues or other conflicts due to multiple requests. In sum the basic intentions of the Singleton are:
 
@@ -10,7 +10,7 @@ Singleton provides one and only one object of a given type, and provides a globa
 - provide a global point of access to that object,
 - share controlling concurrent access to resources.
 
-## Implementation: Standard 
+## Implementation: Standard
 
 Given what we know about Singleton now, our Python implementation will do ensure that:
 
@@ -104,9 +104,9 @@ The real power of the Borg pattern is its ability to subclass and share state.
 
 Whats a metaclass? It is a class of a class meaning that a class is an instance of its metaclass. Using metaclasses allows the developer to alter the way in which classes are typically created, or the attributes and objects within. For example is you have a class named `MyClass`, you can instantiate a new class called `MyKlass`. By doing this we can now reach in and alter the behaviour of `MyClass` in a way that suits the developer.
 
-Everything is an object in python therefore if we define `integer = 5` and call `type(integer)' it will return `<class 'int'>. But if we call `type(type(integer))` it will return `<class 'type'>`. This means the metaclass (class of its class) of `int` is `type`. 
+Everything is an object in python therefore if we define `integer = 5` and call `type(integer)` it will return `<class 'int'>`. But if we call `type(type(integer))` it will return `<class 'type'>`. This means the metaclass (class of its class) of `int` is `type`. 
 
-The type of class created is determined by its metaclass, so if we created `class A`, its the equivlent of stating `A = type(name, bases, dict)`. This is something python does for us under the covers but also allows us to alter any object via metaclasses. 
+The type of class created is determined by its metaclass, so if we created `class A`, its the equivalent of stating `A = type(name, bases, dict)`. This is something python does for us under the covers but also allows us to alter any object via metaclasses. 
 
 - `name`: Name of the class
 - 'base': The base class
@@ -134,5 +134,14 @@ print('logger1: {} logger2: {}'.format(logger1, logger2))
 
 In example 1.4 we have a few things going on. Firstly, `__call__` is utilised, this is a python special method that needs to be called when creating an object from an already existing class. In the above example `__call__` now takes over the instantiation of the class. While this example hasn't shown much reason to use this method of creating a Singleton is can have utility in some cases.
 
-## Real-world Use Case: Singleton
+## Drawbacks of Singleton
+
+As Singletons have only one global point of access they can causes issues such as;
+
+- if the attributes of the object are changed by accident the changes will spill across the entire application,
+- can have tight coupling and any change to the global data by one class may cause unexpected issues in other classes.
+
+## Conclusion
+
+Singletons aren't well regarded by some python developers but they can be used in some scenario's such as reading in config files, locking, database operations and logging. Its ability to create one and only one object can be very efficiency on system resources. But ultimately python offers some usable alternatives to the Singleton principle such as; using a module (in and of itself is called much like a singleton within pythons subsystem) and passing the instance to objects that need it via dependency injection.
 
