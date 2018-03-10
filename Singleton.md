@@ -1,8 +1,21 @@
-# The Singleton Pattern
+# 1. The Singleton Pattern
 
 This section will cover what Singleton is, some real-world applications of the pattern and how it can be implemented in Python. Alex Martelli's Monostate or Borg pattern will also be discussed and showcased, and why it would be used over the Singleton.
 
-## What is the Singleton Pattern
+<!-- TOC -->
+
+- [1. The Singleton Pattern](#1-the-singleton-pattern)
+    - [1.1. What is the Singleton Pattern](#11-what-is-the-singleton-pattern)
+    - [1.2. Implementation: Standard](#12-implementation-standard)
+    - [1.3. Implementation: Lazy](#13-implementation-lazy)
+    - [1.4. Monostate Singleton Pattern](#14-monostate-singleton-pattern)
+    - [1.5. Metaclasses and Singletons](#15-metaclasses-and-singletons)
+    - [1.6. Drawbacks of Singleton](#16-drawbacks-of-singleton)
+    - [1.7. Conclusion](#17-conclusion)
+
+<!-- /TOC -->
+
+## 1.1. What is the Singleton Pattern
 
 Singleton provides one and only one object of a given type, and provides a global point of access to that type. The Singleton is often used in classes such as logging or database operators where having only one instance prevents locking issues or other conflicts due to multiple requests. In sum the basic intentions of the Singleton are:
 
@@ -10,7 +23,7 @@ Singleton provides one and only one object of a given type, and provides a globa
 - provide a global point of access to that object,
 - share controlling concurrent access to resources.
 
-## Implementation: Standard
+## 1.2. Implementation: Standard
 
 Given what we know about Singleton now, our Python implementation will do ensure that:
 
@@ -39,7 +52,7 @@ print('object created', s1)
 
 In the the above example the `__new__` special method is called, and then overridden. We check if the object already exists using the `hasattr` method and if the `cls` has an attribute named `instance`. If it does not exist then we create the new class with the attributes from the Singleton object and create it using the `__new__`  method. If it does exist the new object will be given the same address in memory as the original and only Singleton object, as per the design.
 
-## Implementation: Lazy
+## 1.3. Implementation: Lazy
 
 Lazy instantiation allows the object to be created only as its needed. This saves on resources and run times, although it is not as explicit. In Example 1.1 calling `s = Singleton()` creates the object, whereas below in Example 1.2 we will see that is no longer the case.
 
@@ -73,7 +86,7 @@ s1 = Singleton()
 
 As we can see above the object is initialised when the class is called but it is not until we call `getInstance` that an object is created. This is how lazy instantiation is achieved.
 
-## Monostate Singleton Pattern
+## 1.4. Monostate Singleton Pattern
 
 The theory behind the Singleton pattern is that there should be only one object of a class. Alex Martelli of _Python in a Nutshell_ states that what developers really want is instances sharing the same state. That is to say developers should favour state and behaviour over identity. The monostate is also commonly referred to as the Borg pattern.
 
@@ -100,7 +113,7 @@ print('memory slots a: {} b: {}'.format(a, b))
 
 The real power of the Borg pattern is its ability to subclass and share state.
 
-## Metaclasses and Singletons
+## 1.5. Metaclasses and Singletons
 
 Whats a metaclass? It is a class of a class meaning that a class is an instance of its metaclass. Using metaclasses allows the developer to alter the way in which classes are typically created, or the attributes and objects within. For example is you have a class named `MyClass`, you can instantiate a new class called `MyKlass`. By doing this we can now reach in and alter the behaviour of `MyClass` in a way that suits the developer.
 
@@ -134,14 +147,13 @@ print('logger1: {} logger2: {}'.format(logger1, logger2))
 
 In example 1.4 we have a few things going on. Firstly, `__call__` is utilised, this is a python special method that needs to be called when creating an object from an already existing class. In the above example `__call__` now takes over the instantiation of the class. While this example hasn't shown much reason to use this method of creating a Singleton is can have utility in some cases.
 
-## Drawbacks of Singleton
+## 1.6. Drawbacks of Singleton
 
 As Singletons have only one global point of access they can causes issues such as;
 
 - if the attributes of the object are changed by accident the changes will spill across the entire application,
 - can have tight coupling and any change to the global data by one class may cause unexpected issues in other classes.
 
-## Conclusion
+## 1.7. Conclusion
 
 Singletons aren't well regarded by some python developers but they can be used in some scenario's such as reading in config files, locking, database operations and logging. Its ability to create one and only one object can be very efficiency on system resources. But ultimately python offers some usable alternatives to the Singleton principle such as; using a module (in and of itself is called much like a singleton within pythons subsystem) and passing the instance to objects that need it via dependency injection.
-
